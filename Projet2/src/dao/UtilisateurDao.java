@@ -1,22 +1,24 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import beans.Utilisateur;
-import dao.ConnexionBDD;
 
 public class UtilisateurDao {
+	private Connection cnx; //ouvre la connexion avec le BD
+	
+	public void UtilisateurDAO (Connection c) {
+		this.cnx = c;
+	}
 
-	public Utilisateur getPerson( String login, String motDePasse ){
-        Connection cnx = new ConnexionBDD.getConnexion();
+	public Utilisateur trouver( String login, String motDePasse ){
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            ps = cnx.prepareStatement("select id, nome from usuario where login = ? and motDePasse = ?");
+            ps = cnx.prepareStatement("SELECT id, nome FROM UTILISATEUR WHERE login = ? and motDePasse = ?");
             ps.setString(1, login);
             ps.setString(2, motDePasse);
  
@@ -32,14 +34,16 @@ public class UtilisateurDao {
                 user.setSociete( rs.getString("societe") );
                 user.setTelephone( rs.getString("telephone") );
                 user.setEmail( rs.getString("email") );
-                user.setStatus( rs.getString("status") );
-                user.setType( rs.getBoolean("type") );
+                user.setStatusActif( rs.getBoolean("statusActif") );
+                user.setStatusAdmin( rs.getBoolean("statusAdmin") );
  
                 return user;
             }
         }
         catch (SQLException e){
-            e.printStackTrace();
+        	System.err.println("SQLException: " + e.getMessage());
+		    System.err.println("SQLState: " + e.getSQLState());
+		    System.err.println("VendorError: " + e.getErrorCode());
         }
         finally{
             if (rs != null ) {
