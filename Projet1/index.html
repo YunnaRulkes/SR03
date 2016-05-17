@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="author" content="Thais Marinho">
+    <meta name="keywords" content="sr03, projet">
+    <meta http-equiv="content-language" content="fr">
+    <meta charset="UTF-8">
+    <meta http-equiv="cache-control" content="public">
+    <!--Stylesheets-->
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/timetablejs.css"/>
+    <!--Favicon-->
+    <link rel="shortcut icon" href="images/favicon.ico"/>
+    <title>Emploi du temps 2.0</title>
+</head>
+<body>
+    <header id="banner">
+        <div id="logo">
+            <img src="images/scheduleicon.png">
+            <span>Emploi du temps</span>
+	    <p id="signature">par Thais Marinho</p>
+            <nav>
+		<form id="form" name="form">
+		    <button type="submit" id="envoyer" onclick="valide()">
+		        <img src="images/searchicon.png">
+		    </button>
+		    <input type="text" id="login" name="login" placeholder=" Entrez votre login ici"/>
+		</form>
+		<button id="serveur" onclick="checkServer()">Tester la connexion</button>
+	    </nav>
+        </div>
+    </header>
+    <section>
+        <div id="wrapper">
+            <div class="timetable"></div>
+        </div>
+    </section>
+    <footer></footer>
+    <!-- jQuery CDN (de Google) et le fichier javascript-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/form.js"></script>
+    <script type="text/javascript" src="js/timetable.min.js"></script>
+</body>
+</html>

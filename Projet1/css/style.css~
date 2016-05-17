@@ -1,0 +1,88 @@
+@font-face {
+    font-family: 'Bree';
+    src: url('fonts/BreeSerif-Regular.otf');
+}
+body {
+    margin: 0;
+    box-sizing: border-box;
+    background-color: #fffffa;
+    position: relative;
+}
+/*Header e ses composants*/
+header#banner {
+    height: 230px;
+    width: 100%;
+    text-align: center;
+    background-color: #c3d770;
+}
+
+#logo {
+    vertical-align: middle;
+    text-align: center;
+    position: relative; /*Não alterar, obg*/
+    top: 50%;
+    transform: translateY(-50%); /*procurar versao pra cada browser*/
+    display: inline-block; /*http://www.w3schools.com/css/css3_2dtransforms.asp e http://www.w3schools.com/css/tryit.asp?filename=trycss3_transform_translate*/
+
+}
+#logo span {
+    font-size: 2em;
+    font-family: 'Bree';
+    margin-left: 10px;
+    vertical-align: middle;
+    float: left;
+    padding: 40px 0px 0px 16px;
+}
+#logo img {
+    float: left;
+}
+
+#logo signature {
+    font-size: 1em;
+    font-family: 'Bree';
+    vertical-align: middle;
+}
+/*Barre de navigation*/
+nav {
+    padding-top: 10px;
+    height: 45px;
+    width: 100%;
+    display: inline-block;
+    /*background-color: #333333;*/
+}
+form {
+    margin-right: 20px
+}
+button#envoyer {
+    float: right;
+    width: 40px;
+    height: 36px;
+}
+input#login {
+    border: 2px solid #ccc;
+    height: 30px;
+    width: 300px;
+    float: right;
+    text-align: center;
+
+}
+input#login:focus {
+    border: 3px solid #555;
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+}
+
+button#serveur {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/*La partie avec le contenu de la page*/
+section {
+    width: 100%;
+    padding-top: 20px;
+}
+
+timetable {
+    width: 94%;
+}
