@@ -8,19 +8,17 @@ import java.sql.SQLException;
 import beans.Utilisateur;
 
 public class UtilisateurDao{
-	private Connection cnx;
+	private Connection cnx; //ouvre la connexion avec le BD
 	
 	public UtilisateurDao() {}
 
-	//private Connection cnx; //ouvre la connexion avec le BD
-
-	public Utilisateur trouver( String login, String motDePasse ){
+	public Utilisateur trouver( String login, String motDePasse ) throws SQLException{
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            ps = cnx.prepareStatement("SELECT * FROM UTILISATEUR WHERE login = ? and motDePasse = ?");
-            ps.setString(2, login);
-            ps.setString(3, motDePasse);
+            ps = cnx.prepareStatement("SELECT * FROM UTILISATEUR WHERE login = ? AND motDePasse = ?");
+            ps.setString(1, login);
+            ps.setString(2, motDePasse);
  
             rs = ps.executeQuery();
  
