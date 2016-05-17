@@ -22,7 +22,7 @@ public class ValideLoginControleur extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
     	HttpSession session = request.getSession();
     	
-    	Utilisateur user = null;
+    	Utilisateur user = new Utilisateur();
         String login_form = request.getParameter("user"); // Obtenez le login du formulaire
         String motDePasse_form = request.getParameter("password"); //Obtenez le mot de passe du formulaire
  
@@ -31,7 +31,7 @@ public class ValideLoginControleur extends HttpServlet {
             user = dao.trouver(login_form, motDePasse_form );
         }
         catch ( Exception e ){
- 
+        	System.err.println("Exception: " + e.getMessage());
         }
  
         //s'il n'existe pas un utilisateur, redirige vers la page d'erreur
