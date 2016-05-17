@@ -12,15 +12,19 @@ import beans.Utilisateur;
 import dao.UtilisateurDao;
 
 public class ValideLoginControleur extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3191812674217304083L;
 	public static final String SESSION_USER = "user";
 	public static final String REQUEST_USER = "user";
 	 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
     	HttpSession session = request.getSession();
     	
     	Utilisateur user = null;
-        String login_form = request.getParameter("login"); // Obtenez le login du formulaire
-        String motDePasse_form = request.getParameter("motDePasse"); //Obtenez le mot de passe du formulaire
+        String login_form = request.getParameter("user"); // Obtenez le login du formulaire
+        String motDePasse_form = request.getParameter("password"); //Obtenez le mot de passe du formulaire
  
         try {
             UtilisateurDao dao = new UtilisateurDao(); //nouveau objet UtilisateurDao
@@ -43,4 +47,8 @@ public class ValideLoginControleur extends HttpServlet {
  
     }
  
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,IOException{
+		doPost(request, response);
+	}
+	
 }

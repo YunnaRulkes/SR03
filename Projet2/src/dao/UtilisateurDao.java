@@ -7,24 +7,24 @@ import java.sql.SQLException;
 
 import beans.Utilisateur;
 
-public class UtilisateurDao {
-	private Connection cnx; //ouvre la connexion avec le BD
+public class UtilisateurDao{
+	private Connection cnx;
 	
-	public void UtilisateurDAO (Connection c) {
-		this.cnx = c;
-	}
+	public UtilisateurDao() {}
+
+	//private Connection cnx; //ouvre la connexion avec le BD
 
 	public Utilisateur trouver( String login, String motDePasse ){
         PreparedStatement ps = null;
         ResultSet rs = null;
         try{
-            ps = cnx.prepareStatement("SELECT id, nome FROM UTILISATEUR WHERE login = ? and motDePasse = ?");
-            ps.setString(1, login);
-            ps.setString(2, motDePasse);
+            ps = cnx.prepareStatement("SELECT * FROM UTILISATEUR WHERE login = ? and motDePasse = ?");
+            ps.setString(2, login);
+            ps.setString(3, motDePasse);
  
             rs = ps.executeQuery();
  
-            if ( rs.next() ){
+            if ( rs.first() ){
                 Utilisateur user = new Utilisateur();
                 user.setId( rs.getInt("id") );
                 user.setLogin(login);
@@ -44,20 +44,6 @@ public class UtilisateurDao {
         	System.err.println("SQLException: " + e.getMessage());
 		    System.err.println("SQLState: " + e.getSQLState());
 		    System.err.println("VendorError: " + e.getErrorCode());
-        }
-        finally{
-            if (rs != null ) {
-                try { rs.close(); } catch (SQLException e) { ; }
-                rs = null;
-            }
-            if (ps != null ) {
-                try { ps.close(); } catch (SQLException e) { ; }
-                ps = null;
-            }
-            if (cnx != null ) {
-                try { cnx.close(); } catch (SQLException e) { ; }
-                cnx = null;
-            }
         }
         return null;
         }
