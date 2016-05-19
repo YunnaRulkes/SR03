@@ -7,22 +7,21 @@ import java.sql.SQLException;
 
 import beans.Utilisateur;
 
-public class UtilisateurDao{
-	private Connection cnx; //ouvre la connexion avec le BD
-	
-	public UtilisateurDao() {}
+public class UtilisateurDao {
+	Connection cnx = ConnexionBD.getInstance();
+	private static PreparedStatement ps = null;
+    private static ResultSet rs = null;
 
-	public Utilisateur trouver( String login, String motDePasse ) throws SQLException{
-        PreparedStatement ps = null;
-        ResultSet rs = null;
+	public Utilisateur trouver( String login, String motDePasse ) {
+		
+        
         try{
-            ps = cnx.prepareStatement("SELECT * FROM UTILISATEUR WHERE login = ? AND motDePasse = ?");
+            ps = cnx.prepareStatement("SELECT * FROM `UTILISATEUR` WHERE `login`= ? AND `motDePasse`= ? ");
             ps.setString(1, login);
             ps.setString(2, motDePasse);
- 
             rs = ps.executeQuery();
  
-            if ( rs.first() ){
+            if ( rs.next() ){
                 Utilisateur user = new Utilisateur();
                 user.setId( rs.getInt("id") );
                 user.setLogin(login);
@@ -39,9 +38,23 @@ public class UtilisateurDao{
             }
         }
         catch (SQLException e){
-        	System.err.println("SQLException: " + e.getMessage());
-		    System.err.println("SQLState: " + e.getSQLState());
-		    System.err.println("VendorError: " + e.getErrorCode());
+        	System.err.println("SQLException 1: " + e.getMessage());
+		    System.err.println("SQLState 1: " + e.getSQLState());
+		    System.err.println("VendorError: 1 " + e.getErrorCode());
+        }
+        finally{
+            if (rs != null ) {
+                try { rs.close(); } catch (SQLException e) { ; }
+                rs = null;
+            }
+            if (ps != null ) {
+                try { ps.close(); } catch (SQLException e) { ; }
+                ps = null;
+            }
+            if (cnx != null ) {
+                try { cnx.close(); } catch (SQLException e) { ; }
+                cnx = null;
+            }
         }
         return null;
         }
