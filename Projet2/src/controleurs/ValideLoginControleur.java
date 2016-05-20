@@ -2,12 +2,13 @@ package controleurs;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
- 
+
 import beans.Utilisateur;
 import dao.UtilisateurDao;
 
@@ -27,7 +28,7 @@ public class ValideLoginControleur extends HttpServlet {
         String motDePasse_form = request.getParameter("password"); //Obtenez le mot de passe du formulaire
  
         try {
-            UtilisateurDao dao = new UtilisateurDao(); //nouveau objet UtilisateurDao
+            UtilisateurDao dao = new UtilisateurDao();
             user = dao.trouver(login_form, motDePasse_form );
         }
         catch ( Exception e ){
@@ -41,11 +42,12 @@ public class ValideLoginControleur extends HttpServlet {
             request.getRequestDispatcher("erreur.jsp" ).forward(request, response);
         }
         if(user.getStatusAdmin()) {
-        	request.getRequestDispatcher("accueilAdmin.jsp" ).forward(request, response);
+        	session.setAttribute("user", user);
+        	request.getRequestDispatcher("admin.jsp" ).forward(request, response);
         }
         else{
             session.setAttribute("user", user);
-            request.getRequestDispatcher("accueilParticipant.jsp" ).forward(request, response);
+            request.getRequestDispatcher("stagiaire.jsp" ).forward(request, response);
         }
  
     }

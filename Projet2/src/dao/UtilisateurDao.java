@@ -8,13 +8,14 @@ import java.sql.SQLException;
 import beans.Utilisateur;
 
 public class UtilisateurDao {
-	Connection cnx = ConnexionBD.getInstance();
+	private Connection cnx;
 	private static PreparedStatement ps = null;
     private static ResultSet rs = null;
 
+    public UtilisateurDao() {
+    	this.cnx = ConnexionBD.getInstance();
+    }
 	public Utilisateur trouver( String login, String motDePasse ) {
-		
-        
         try{
             ps = cnx.prepareStatement("SELECT * FROM `UTILISATEUR` WHERE `login`= ? AND `motDePasse`= ? ");
             ps.setString(1, login);
@@ -43,19 +44,94 @@ public class UtilisateurDao {
 		    System.err.println("VendorError: 1 " + e.getErrorCode());
         }
         finally{
-            if (rs != null ) {
-                try { rs.close(); } catch (SQLException e) { ; }
-                rs = null;
-            }
-            if (ps != null ) {
-                try { ps.close(); } catch (SQLException e) { ; }
-                ps = null;
-            }
-            if (cnx != null ) {
-                try { cnx.close(); } catch (SQLException e) { ; }
-                cnx = null;
-            }
+        	fermer();
         }
         return null;
         }
+
+	public Utilisateur ajouter(Utilisateur user) {
+		try{
+            ps = cnx.prepareStatement("INSERT INTO UTILISATEUR(login, motDePasse, nom, prenom, email, statusAdmin) VALUES (?, ?, ?, ?, ?, ?);");
+            ps.setString(1, user.getLogin());
+            ps.setString(2, user.getMotDePasse());
+            ps.setString(3, user.getNom());
+            ps.setString(4, user.getPrenom());
+            ps.setString(5, user.getEmail());
+            ps.setBoolean(6, user.getStatusActif());
+            ps.setBoolean(7, user.getStatusAdmin());
+            ps.executeUpdate();
+        }
+        catch (SQLException e){
+        	System.err.println("SQLException: " + e.getMessage());
+		    System.err.println("SQLState: " + e.getSQLState());
+		    System.err.println("VendorError: " + e.getErrorCode());
+        }
+        finally{
+            fermer();
+        }
+        return null;		
+	}
+	
+	public void supprimer(Utilisateur user) {
+		try{
+            ps = cnx.prepareStatement("DELETE FROM `UTILISATEUR` WHERE `login` = ?");
+            ps.setString(1, user.getLogin());
+            ps.executeUpdate();
+        }
+        catch (SQLException e){
+        	System.err.println("SQLException: " + e.getMessage());
+		    System.err.println("SQLState: " + e.getSQLState());
+		    System.err.println("VendorError: " + e.getErrorCode());
+        }
+        finally{
+            if (rs != null ) {
+                try { rs.close(); } catch (SQLException e) { System.err.println("SQLException: " + e.getMessage()); }
+                rs = null;
+            }
+            if (ps != null ) {
+                try { ps.close(); } catch (SQLException e) { System.err.println("SQLException: " + e.getMessage()); }
+                ps = null;
+            }
+            if (cnx != null ) {
+                try { cnx.close(); } catch (SQLException e) { System.err.println("SQLException: " + e.getMessage()); }
+                cnx = null;
+            }
+        }
+	}
+	public void modifier(Utilisateur userOriginal, Utilisateur userNouveau) {
+		try{
+            ps = cnx.prepareStatement("UPDATE `UTILISATEUR` SET `login`=?,`motDePasse`=?,`nom`=?,`prenom`=?,`societe`=?,`telephone`=?,`email`=?,`statusActif`=?  WHERE `login`=?");
+            ps.setString(1, userNouveau.getLogin());
+            ps.setString(2, userNouveau.getMotDePasse());
+            ps.setString(3, userNouveau.getNom());
+            ps.setString(4, userNouveau.getPrenom());
+            ps.setString(5, userNouveau.getEmail());
+            ps.setBoolean(6, userNouveau.getStatusActif());
+            ps.setString(8, userOriginal.getLogin());
+            ps.executeUpdate();
+        }
+        catch (SQLException e){
+        	System.err.println("SQLException: " + e.getMessage());
+		    System.err.println("SQLState: " + e.getSQLState());
+		    System.err.println("VendorError: " + e.getErrorCode());
+        }
+        finally{
+        	fermer();
+        }	
+	}
+	
+	public void fermer() {
+		if (rs != null ) {
+            try { rs.close(); } catch (SQLException e) { System.err.println("SQLException: " + e.getMessage()); }
+            rs = null;
+        }
+        if (ps != null ) {
+            try { ps.close(); } catch (SQLException e) { System.err.println("SQLException: " + e.getMessage()); }
+            ps = null;
+        }
+        if (cnx != null ) {
+            try { cnx.close(); } catch (SQLException e) { System.err.println("SQLException: " + e.getMessage()); }
+            cnx = null;
+        }
+	}
 }
