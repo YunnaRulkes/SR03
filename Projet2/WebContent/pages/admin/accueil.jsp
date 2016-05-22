@@ -5,22 +5,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/favicon.ico" />
 <title>Espace Admin</title>
 </head>
 <body>
-<c:choose>
-    <c:when test="${ user eq null }">
-        <jsp:forward page="erreur.jsp" />
-    </c:when>
-    <c:otherwise>
-        <p>Bienvenue ${user.prenom} !</p>
-        <ul>
-			<li>Gestion des utilisateurs</li>
-			<li>Gestion des questionnaires</li>
-			<li>Gestion des questions</li>
-			<li>Gestion des réponses</li>
-		</ul>
-    </c:otherwise>
-</c:choose>
+<p>Bienvenue ${user.prenom} !</p> 
+	<ul>
+	    <li><a href="menu/utilisateurs">Gestion des utilisateurs</a></li>
+	    <li><a href="menu/questionnaires">Gestion des questionnaires</a></li>
+	</ul>
+		<br> 
+		<br> 
+		<br> 
+		<a class="logout" href="${pageContext.request.contextPath}/logout">Logout</a> 
+
 </body>
 </html>

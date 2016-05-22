@@ -14,6 +14,17 @@ public class Utilisateur {
     
     /*Constructors*/
     public Utilisateur() {}
+    public Utilisateur(String login,
+			   String motDePasse) {
+
+		this.setPrenom(null);
+		this.setNom(null);
+		this.setLogin(login);
+		this.setMotDePasse(motDePasse);
+		this.setSociete(null);
+		this.setStatusActif(true);
+		this.setStatusAdmin(false);
+}
     public Utilisateur(int id,
     				   String prenom,
 					   String nom,
@@ -24,17 +35,17 @@ public class Utilisateur {
 					   Boolean statusActif,
 					   Boolean statusAdmin) {
     	
-    	this.id 		 = id;
-		this.prenom    = prenom;
-		this.nom 		 = nom;
-		this.login 	 = login;
-		this.motDePasse = motDePasse;
-		this.societe    = societe;
+    	this.setId(id);
+		this.setPrenom(prenom);
+		this.setNom(nom);
+		this.setLogin(login);
+		this.setMotDePasse(motDePasse);
+		this.setSociete(societe);
 		
-		if (!statusActif) this.statusActif = statusActif.booleanValue();
-		if (!statusAdmin)  this.statusAdmin  = statusAdmin.booleanValue();
+		if (!statusActif) this.setStatusActif(statusActif.booleanValue());
+		if (!statusAdmin)  this.setStatusAdmin(statusAdmin.booleanValue());
     }
-    
+
     /*Getters*/
     public int getId() {
 		return id;

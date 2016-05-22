@@ -48,8 +48,7 @@ public class UtilisateurDao {
         }
         return null;
         }
-
-	public Utilisateur ajouter(Utilisateur user) {
+	public void ajouter(Utilisateur user) {
 		try{
             ps = cnx.prepareStatement("INSERT INTO UTILISATEUR(login, motDePasse, nom, prenom, email, statusAdmin) VALUES (?, ?, ?, ?, ?, ?);");
             ps.setString(1, user.getLogin());
@@ -68,10 +67,8 @@ public class UtilisateurDao {
         }
         finally{
             fermer();
-        }
-        return null;		
+        }		
 	}
-	
 	public void supprimer(Utilisateur user) {
 		try{
             ps = cnx.prepareStatement("DELETE FROM `UTILISATEUR` WHERE `login` = ?");
@@ -119,7 +116,48 @@ public class UtilisateurDao {
         	fermer();
         }	
 	}
-	
+	public void afficherTousStagiaires() {
+		try{
+            ps = cnx.prepareStatement("SELECT * FROM `UTILISATEUR` WHERE `statusAdmin`= 0 AND `statusActif`= 1 ;");
+            ps.execute();
+        }
+        catch (SQLException e){
+        	System.err.println("SQLException: " + e.getMessage());
+		    System.err.println("SQLState: " + e.getSQLState());
+		    System.err.println("VendorError: " + e.getErrorCode());
+        }
+        finally{
+            fermer();
+        }		
+	}
+	public void afficherTousActif() {
+		try{
+            ps = cnx.prepareStatement("SELECT * FROM `UTILISATEUR` WHERE `statusActif`= 1 ;");
+            ps.execute();
+        }
+        catch (SQLException e){
+        	System.err.println("SQLException: " + e.getMessage());
+		    System.err.println("SQLState: " + e.getSQLState());
+		    System.err.println("VendorError: " + e.getErrorCode());
+        }
+        finally{
+            fermer();
+        }		
+	}
+	public void afficherTousAdmin() {
+		try{
+            ps = cnx.prepareStatement("SELECT * FROM `UTILISATEUR` WHERE `statusAdmin`= 0 AND `statusActif`= 1 ;");
+            ps.execute();
+        }
+        catch (SQLException e){
+        	System.err.println("SQLException: " + e.getMessage());
+		    System.err.println("SQLState: " + e.getSQLState());
+		    System.err.println("VendorError: " + e.getErrorCode());
+        }
+        finally{
+            fermer();
+        }		
+	}
 	public void fermer() {
 		if (rs != null ) {
             try { rs.close(); } catch (SQLException e) { System.err.println("SQLException: " + e.getMessage()); }
